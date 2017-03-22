@@ -1,6 +1,6 @@
 # AirTable.cs
 
-C# library for accessing AirTable API. A portable class library if you want to use it on multiple platforms. It is based on Newtonsoft JSON reader.
+C# library for accessing [AirTable](https://airtable.com/) API. A portable class library if you want to use it on multiple platforms. It is based on Newtonsoft JSON reader.
 Everything is object oriented : Get a **Base** with your secret key, the **Base Id** & the **Base Name**. Act on this Base.
 
 You can find two project. One is the API & the other is a test program. You need to fill your secret API key, the Base name & Id to make it work.
@@ -9,9 +9,9 @@ It relies on [Agile Template](https://airtable.com/templates/featured/expJAKb5Vb
 First commit is few hours of work. Be gentle & open issues if there is any problems :blush:
 
 ## What library handle :
-* List with parameters (formula is a string)
+* List with parameters (formula is a string but everything else is object oriented)
 * Create lines
-* Update lines
+* Update lines based on data changed by the user
 * Delete lines
 
 ## What library do not handle : 
