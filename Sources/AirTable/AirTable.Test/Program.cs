@@ -23,7 +23,7 @@ namespace AirTable.Test
                     {
                         //Pure sample based on Agile template.
                         var top3Stories = await baseAirTable.List(new ListParameter() { PageSize = 2 });
-                        var story1 = await baseAirTable.Retreive(top3Stories.First().Id);
+                        var story1 = await baseAirTable.Retreive(top3Stories.Records.First().Id);
                         //var deleted = await baseAirTable.Delete(top3Stories.First().Id);
                         story1.ExtractStringField("User Want").FieldValue = "Modified !!! " + DateTime.Now.ToLongTimeString();
                         story1 = await baseAirTable.Update(story1);

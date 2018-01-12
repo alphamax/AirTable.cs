@@ -46,6 +46,7 @@
     <Compile Include="Data\Parameter\FieldSort.cs" />
     <Compile Include="Data\Parameter\ListParameter.cs" />
     <Compile Include="Data\Parameter\SortDirection.cs" />
+    <Compile Include="Data\RecordList.cs" />
     <Compile Include="Helpers\DataHelper.cs" />
     <Compile Include="Helpers\RequestParameter.cs" />
     <Compile Include="Helpers\RestHelper.cs" />

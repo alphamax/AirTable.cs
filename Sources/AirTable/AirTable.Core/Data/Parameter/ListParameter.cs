@@ -32,6 +32,11 @@ namespace AirTable.Core.Data.Parameter
         /// Sorting needed
         /// </summary>
         public IEnumerable<FieldSort> FieldSorts { get; set; }
+
+        /// <summary>
+        /// Offset of the next list
+        /// </summary>
+        public string Offset { get; set; }
         /// <summary>
         /// View requested
         /// </summary>
@@ -75,6 +80,11 @@ namespace AirTable.Core.Data.Parameter
             if (!string.IsNullOrWhiteSpace(View))
             {
                 parameters.Add("view=" + DataHelper.UrlEncode(View));
+            }
+
+            if (!string.IsNullOrWhiteSpace(Offset))
+            {
+                parameters.Add("offset=" + DataHelper.UrlEncode(Offset));
             }
 
             if (parameters.Count > 0)

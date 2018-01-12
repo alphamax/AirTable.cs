@@ -49,7 +49,7 @@ namespace AirTable.Core
         /// List all items of the base
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Record>> List()
+        public async Task<RecordList> List()
         {
             return await List(new ListParameter());
         }
@@ -59,9 +59,9 @@ namespace AirTable.Core
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Record>> List(ListParameter parameters)
+        public async Task<RecordList> List(ListParameter parameters)
         {
-            var result = await RestHelper.MakeRequest("GET", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + parameters.toURLFormat(), 
+            var result = await RestHelper.MakeRequest("GET", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + parameters.toURLFormat(),
                 new RequestParameter("Authorization", "Bearer " + TokenKey));
             var resultDeserialized = JsonConvert.DeserializeObject<JObject>(result);
             var allRecords = resultDeserialized["records"];
@@ -72,7 +72,16 @@ namespace AirTable.Core
                 records.Add(new Record(item));
             }
 
-            return records;
+            if (resultDeserialized["offset"] != null)
+            {
+                return new RecordList() { Records = records, Offset = resultDeserialized["offset"].Value<string>() };
+            }
+            else
+            {
+                return new RecordList() { Records = records};
+            }
+
+            
         }
 
         /// <summary>
