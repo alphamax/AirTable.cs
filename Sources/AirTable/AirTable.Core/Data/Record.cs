@@ -116,5 +116,11 @@ namespace AirTable.Core
 
             return result + string.Join(",", partialResults) + "}}";
         }
+
+        public override string ToString()
+        {
+            return "Id:"  +Id + ";" + 
+                string.Join("|", Fields.Select(c => "{" + c.Value.ToJSONFormat() + "}"));
+        }
     }
 }

@@ -26,5 +26,9 @@ namespace AirTable.Core
         /// </summary>
         public string Offset { get; set; }
 
+        public override string ToString()
+        {
+            return string.Join("|", Records.Select(c => c.ToString()));
+        }
     }
 }
