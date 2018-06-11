@@ -20,29 +20,30 @@ namespace AirTable.Core.Helpers
         /// <returns></returns>
         public static AbstractField CreateField(JToken json)
         {
+            AbstractField result;
             if (json.Type == JTokenType.Property)
             {
                 var property = (json as JProperty);
                 if (property.Value.Type == JTokenType.Array)
                 {
-                    return new ArrayField(property.Name, (property.Value as JArray).Select(c => CreateField(c)).ToArray());
+                    result = new ArrayField(property.Name, (property.Value as JArray).Select(c => CreateField(c)).ToArray());
                 }
                 else if (property.Value.Type == JTokenType.String)
                 {
-                    return new StringField(property.Name, property.Value.Value<string>());
+                    result = new StringField(property.Name, property.Value.Value<string>());
                 }
                 else if (property.Value.Type == JTokenType.Integer)
                 {
-                    return new IntegerField(property.Name, property.Value.Value<int>());
+                    result = new IntegerField(property.Name, property.Value.Value<int>());
                 }
                 else if (property.Value.Type == JTokenType.Boolean)
                 {
-                    return new BooleanField(property.Name, property.Value.Value<bool>());
+                    result = new BooleanField(property.Name, property.Value.Value<bool>());
                 }
                 else if (property.Value.Type == JTokenType.Object)
                 {
                     var arrayOfData = json.ToArray();
-                    return new ArrayField(property.Name, arrayOfData.Select(c => CreateField(c)));
+                    result = new ArrayField(property.Name, arrayOfData.Select(c => CreateField(c)));
                 }
                 else
                 {
@@ -52,12 +53,13 @@ namespace AirTable.Core.Helpers
             else if (json.Count() > 0)
             {
                 var arrayOfData = json.ToArray();
-                return new ObjectField(arrayOfData.Select(c => CreateField(c)));
+                result = new ObjectField(arrayOfData.Select(c => CreateField(c)));
             }
             else
             {
                 throw new Exception("Unable to serialize in a field.");
             }
+            return result;
         }
 
         /// <summary>

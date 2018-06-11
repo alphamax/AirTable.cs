@@ -74,7 +74,14 @@ namespace AirTable.Core.Data.Field
 
         public override string ToJSONFormat()
         {
-            return "\"" + FieldName + "\":[" + string.Join(",", ArrayFieldValue.Select(c => c.ToJSONFormat())) + "]";
+            //if (ArrayFieldValue.Count ==1)
+            //{
+                return "\"" + FieldName + "\":[" + string.Join(",", ArrayFieldValue.Select(c => c.ToJSONFormat())) + "]";
+            //}
+            //else
+            {
+            //    return "\"" + FieldName + "\":" + string.Join(",", ArrayFieldValue.Select(c => c.ToJSONFormat()));
+            }
         }
     }
 }
