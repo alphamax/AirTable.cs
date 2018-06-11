@@ -22,9 +22,9 @@ namespace AirTable.Core.Helpers
         /// <param name="url"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static async Task<string> MakeRequest(string httpMethod, string url, params RequestParameter[] parameters)
+        public static string MakeRequest(string httpMethod, string url, params RequestParameter[] parameters)
         {
-            return await MakeRequest(httpMethod, url, null, parameters);
+            return MakeRequest(httpMethod, url, null, parameters);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace AirTable.Core.Helpers
         /// <param name="content"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static async Task<string> MakeRequest(string httpMethod, string url, string content, params RequestParameter[] parameters)
+        public static string MakeRequest(string httpMethod, string url, string content, params RequestParameter[] parameters)
         {
             var request = (HttpWebRequest)System.Net.WebRequest.Create(url);
             request.Method = httpMethod;
@@ -50,7 +50,7 @@ namespace AirTable.Core.Helpers
                 request.ContentType = "application/json";
                 request.Accept = "application/json";
 
-                using (var response = await Task<Stream>.Factory.FromAsync(request.BeginGetRequestStream, request.EndGetRequestStream, request))
+                using (var response = request.GetRequestStream())
                 using (var streamWriter = new StreamWriter(response))
                 {
                     streamWriter.Write((content));
@@ -59,7 +59,7 @@ namespace AirTable.Core.Helpers
 
             try
             {
-                using (var response = await Task<WebResponse>.Factory.FromAsync(request.BeginGetResponse, request.EndGetResponse, request))
+                using (var response = request.GetResponse())
                 using (var streaReader = new StreamReader(response.GetResponseStream()))
                 {
 

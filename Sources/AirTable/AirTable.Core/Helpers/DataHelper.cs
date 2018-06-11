@@ -25,7 +25,7 @@ namespace AirTable.Core.Helpers
                 var property = (json as JProperty);
                 if (property.Value.Type == JTokenType.Array)
                 {
-                    return new ArrayField(property.Name, (property.Value as JArray).Select(c => c.Value<string>()).ToArray());
+                    return new ArrayField(property.Name, (property.Value as JArray).Select(c => CreateField(c)).ToArray());
                 }
                 else if (property.Value.Type == JTokenType.String)
                 {
@@ -39,10 +39,20 @@ namespace AirTable.Core.Helpers
                 {
                     return new BooleanField(property.Name, property.Value.Value<bool>());
                 }
+                else if (property.Value.Type == JTokenType.Object)
+                {
+                    var arrayOfData = json.ToArray();
+                    return new ArrayField(property.Name, arrayOfData.Select(c => CreateField(c)));
+                }
                 else
                 {
                     throw new Exception("Unable to find data type.");
                 }
+            }
+            else if (json.Count() > 0)
+            {
+                var arrayOfData = json.ToArray();
+                return new ObjectField(arrayOfData.Select(c => CreateField(c)));
             }
             else
             {

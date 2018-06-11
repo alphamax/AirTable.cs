@@ -12,13 +12,13 @@ namespace AirTable.Core.Data.Field
         /// <summary>
         /// Field container
         /// </summary>
-        private List<string> ArrayFieldValue { get; set; }
+        private List<AbstractField> ArrayFieldValue { get; set; }
 
         /// <summary>
         /// Kind of ReadOnly version.
         /// AsReadOnly not available on PCL.
         /// </summary>
-        public List<string> ReadOnlyArrayFieldValue { get { return ArrayFieldValue.ToList(); } }
+        public List<AbstractField> ReadOnlyArrayFieldValue { get { return ArrayFieldValue.ToList(); } }
 
         /// <summary>
         /// Constructor with default value.
@@ -28,7 +28,18 @@ namespace AirTable.Core.Data.Field
         public ArrayField(string name, IEnumerable<string> array)
             : base(name)
         {
-            ArrayFieldValue = new List<string>(array);
+            ArrayFieldValue = new List<AbstractField>(array.Select(c => new StringField(c)));
+        }
+
+        /// <summary>
+        /// Constructor with default value.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="array"></param>
+        public ArrayField(string name, IEnumerable<AbstractField> array)
+            : base(name)
+        {
+            ArrayFieldValue = new List<AbstractField>(array);
         }
 
         /// <summary>
@@ -37,7 +48,7 @@ namespace AirTable.Core.Data.Field
         /// <param name="value"></param>
         public void AddValue(string value)
         {
-            ArrayFieldValue.Add(value);
+            ArrayFieldValue.Add(new StringField(value));
             HasBeenModified = true;
         }
 
@@ -47,8 +58,9 @@ namespace AirTable.Core.Data.Field
         /// <param name="value"></param>
         public void RemoveValue(string value)
         {
-            ArrayFieldValue.Remove(value);
-            HasBeenModified = true;
+            var found = ArrayFieldValue.FirstOrDefault(c => c is StringField && ((StringField)c).FieldValue == value);
+            ArrayFieldValue.Remove(found);
+            HasBeenModified = found != null;
         }
 
         /// <summary>
@@ -62,7 +74,7 @@ namespace AirTable.Core.Data.Field
 
         public override string ToJSONFormat()
         {
-            return "\"" + FieldName + "\":[" + string.Join(",", ArrayFieldValue.Select(c => "\"" + c + "\"")) + "]";
+            return "\"" + FieldName + "\":[" + string.Join(",", ArrayFieldValue.Select(c => c.ToJSONFormat())) + "]";
         }
     }
 }

@@ -38,6 +38,7 @@
     <Compile Include="Data\ApiException.cs" />
     <Compile Include="Data\Base.cs" />
     <Compile Include="Data\Field\AbstractSimpleDataField.cs" />
+    <Compile Include="Data\Field\ObjectField.cs" />
     <Compile Include="Data\Field\StringField.cs" />
     <Compile Include="Data\Field\BooleanField.cs" />
     <Compile Include="Data\Field\IntegerField.cs" />
@@ -50,19 +51,18 @@
     <Compile Include="Helpers\DataHelper.cs" />
     <Compile Include="Helpers\RequestParameter.cs" />
     <Compile Include="Helpers\RestHelper.cs" />
+    <Compile Include="Helpers\WebRequestExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Record.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

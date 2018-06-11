@@ -49,9 +49,9 @@ namespace AirTable.Core
         /// List all items of the base
         /// </summary>
         /// <returns></returns>
-        public async Task<RecordList> List()
+        public RecordList List()
         {
-            return await List(new ListParameter());
+            return List(new ListParameter());
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace AirTable.Core
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public async Task<RecordList> List(ListParameter parameters)
+        public RecordList List(ListParameter parameters)
         {
-            var result = await RestHelper.MakeRequest("GET", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + parameters.toURLFormat(),
+            var result = RestHelper.MakeRequest("GET", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + parameters.toURLFormat(),
                 new RequestParameter("Authorization", "Bearer " + TokenKey));
             var resultDeserialized = JsonConvert.DeserializeObject<JObject>(result);
             var allRecords = resultDeserialized["records"];
@@ -80,8 +80,6 @@ namespace AirTable.Core
             {
                 return new RecordList() { Records = records};
             }
-
-            
         }
 
         /// <summary>
@@ -91,7 +89,7 @@ namespace AirTable.Core
         /// <returns></returns>
         public async Task<Record> Retreive(string recordId)
         {
-            var result = await RestHelper.MakeRequest("GET", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + "/" + recordId,
+            var result = RestHelper.MakeRequest("GET", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + "/" + recordId,
                 new RequestParameter("Authorization", "Bearer " + TokenKey));
             var resultDeserialized = JsonConvert.DeserializeObject<JObject>(result);
 
@@ -105,7 +103,7 @@ namespace AirTable.Core
         /// <returns></returns>
         public async Task<Record> Update(Record record)
         {
-            var result = await RestHelper.MakeRequest("PATCH", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + "/" + record.Id,
+            var result = RestHelper.MakeRequest("PATCH", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + "/" + record.Id,
                record.ToJSONFormat(false),
                new RequestParameter("Authorization", "Bearer " + TokenKey));
             var resultDeserialized = JsonConvert.DeserializeObject<JObject>(result);
@@ -120,7 +118,7 @@ namespace AirTable.Core
         /// <returns></returns>
         public async Task<Record> Create(Record record)
         {
-            var result = await RestHelper.MakeRequest("POST", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName,
+            var result = RestHelper.MakeRequest("POST", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName,
                record.ToJSONFormat(true),
                new RequestParameter("Authorization", "Bearer " + TokenKey));
             var resultDeserialized = JsonConvert.DeserializeObject<JObject>(result);
@@ -134,12 +132,10 @@ namespace AirTable.Core
         /// <returns></returns>
         public async Task<bool> Delete(string recordId)
         {
-            var result = await RestHelper.MakeRequest("DELETE", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + "/" + recordId,
+            var result = RestHelper.MakeRequest("DELETE", EndPointUrl + "/" + Version + "/" + BaseId + "/" + BaseName + "/" + recordId,
                 new RequestParameter("Authorization", "Bearer " + TokenKey));
             var resultDeserialized = JsonConvert.DeserializeObject<JObject>(result);
             return resultDeserialized["deleted"].Value<bool>();
         }
-
-
     }
 }

@@ -36,8 +36,19 @@ namespace AirTable.Core.Data.Field
         {
         }
 
+        /// <summary>
+        /// Constructor with default value.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public StringField(string value)
+            : base(string.Empty, value)
+        {
+        }
+
         public override string ToJSONFormat()
         {
+
             return "\"" + FieldName + "\":\"" + FieldValue + "\"";
         }
     }
