@@ -23,11 +23,11 @@ namespace AirTable.Core.Data.Field
         {
             if (ReadOnlyArrayFieldValue.Count == 1 && ReadOnlyArrayFieldValue[0] is ArrayField)
             {
-                return FieldName + ":" + "{" + (string.Join(",", (ReadOnlyArrayFieldValue.First() as ArrayField).ReadOnlyArrayFieldValue.Select(c => c.ToJSONFormat())) + "}");
+                return "\"" + FieldName + "\":" + "{" + (string.Join(",", (ReadOnlyArrayFieldValue.First() as ArrayField).ReadOnlyArrayFieldValue.Select(c => c.ToJSONFormat())) + "}");
             }
             else
             {
-                return FieldName + ":" + "{" + string.Join(",", ReadOnlyArrayFieldValue.Select(c => c.ToJSONFormat())) + "}";
+                return "\"" + FieldName + "\":" + "{" + string.Join(",", ReadOnlyArrayFieldValue.Select(c => c.ToJSONFormat())) + "}";
             }
         }
     }
