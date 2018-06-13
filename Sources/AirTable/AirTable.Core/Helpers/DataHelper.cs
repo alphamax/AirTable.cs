@@ -43,7 +43,7 @@ namespace AirTable.Core.Helpers
                 else if (property.Value.Type == JTokenType.Object)
                 {
                     var arrayOfData = json.ToArray();
-                    result = new ArrayField(property.Name, arrayOfData.Select(c => CreateField(c)));
+                    result = new ObjectField(property.Name, arrayOfData.Select(c => CreateField(c)));
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace AirTable.Core.Helpers
             else if (json.Count() > 0)
             {
                 var arrayOfData = json.ToArray();
-                result = new ObjectField(arrayOfData.Select(c => CreateField(c)));
+                result = new ArrayField(arrayOfData.Select(c => CreateField(c)));
             }
             else
             {

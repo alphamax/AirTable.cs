@@ -14,14 +14,21 @@ namespace AirTable.Core.Data.Field
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public ObjectField(IEnumerable<AbstractField> array)
-            : base(string.Empty, array)
+        public ObjectField(string propertyName, IEnumerable<AbstractField> array)
+            : base(propertyName, array)
         {
         }
 
         public override string ToJSONFormat()
         {
-            return "{" + string.Join(",", ReadOnlyArrayFieldValue.Select(c => c.ToJSONFormat())) + "}";
+            if (ReadOnlyArrayFieldValue.Count == 1 && ReadOnlyArrayFieldValue[0] is ArrayField)
+            {
+                return FieldName + ":" + "{" + (string.Join(",", (ReadOnlyArrayFieldValue.First() as ArrayField).ReadOnlyArrayFieldValue.Select(c => c.ToJSONFormat())) + "}");
+            }
+            else
+            {
+                return FieldName + ":" + "{" + string.Join(",", ReadOnlyArrayFieldValue.Select(c => c.ToJSONFormat())) + "}";
+            }
         }
     }
 }

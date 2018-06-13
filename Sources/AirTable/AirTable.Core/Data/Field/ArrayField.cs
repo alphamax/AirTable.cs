@@ -25,8 +25,8 @@ namespace AirTable.Core.Data.Field
         /// </summary>
         /// <param name="name"></param>
         /// <param name="array"></param>
-        public ArrayField(string name, IEnumerable<string> array)
-            : base(name)
+        public ArrayField(string propertyName, IEnumerable<string> array)
+            : base(propertyName)
         {
             ArrayFieldValue = new List<AbstractField>(array.Select(c => new StringField(c)));
         }
@@ -36,8 +36,19 @@ namespace AirTable.Core.Data.Field
         /// </summary>
         /// <param name="name"></param>
         /// <param name="array"></param>
-        public ArrayField(string name, IEnumerable<AbstractField> array)
-            : base(name)
+        public ArrayField(IEnumerable<AbstractField> array)
+            : base(string.Empty)
+        {
+            ArrayFieldValue = new List<AbstractField>(array);
+        }
+
+        /// <summary>
+        /// Constructor with default value.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="array"></param>
+        public ArrayField(string propertyName, IEnumerable<AbstractField> array)
+            : base(propertyName)
         {
             ArrayFieldValue = new List<AbstractField>(array);
         }
@@ -76,7 +87,7 @@ namespace AirTable.Core.Data.Field
         {
             //if (ArrayFieldValue.Count ==1)
             //{
-                return "\"" + FieldName + "\":[" + string.Join(",", ArrayFieldValue.Select(c => c.ToJSONFormat())) + "]";
+                return "{" + string.Join(",", ArrayFieldValue.Select(c => c.ToJSONFormat())) + "}";
             //}
             //else
             {
