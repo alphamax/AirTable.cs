@@ -8,3 +8,13 @@ Sources/AirTable/AirTable\.Core/obj/Debug/
 Sources/AirTable/AirTable\.Core/bin/Debug/
 
 Sources/AirTable/packages/Newtonsoft\.Json\.9\.0\.1/
+
+Sources/AirTable/AirTable\.Test/obj/Release/
+
+Sources/AirTable/AirTable\.Core/obj/Release/
+
+Sources/AirTable/\.vs/AirTable/v15/Server/sqlite3/
+
+Sources/AirTable/AirTable\.Core/bin/Release/
+
+Sources/AirTable/\.vs/AirTable/v15/
