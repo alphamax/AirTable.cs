@@ -94,5 +94,91 @@ namespace AirTable.Core.Data.Field
                 return "\"" + FieldName + "\":[" + string.Join(",", ArrayFieldValue.Select(c => c.ToJSONFormat())) + "]";
             }
         }
+
+        public List<AbstractField> FieldValues
+        {
+            get
+            {
+                if (ArrayFieldValue.Count == 1 && ArrayFieldValue[0] is ArrayField)
+                    return ((ArrayField)ArrayFieldValue[0]).FieldValues;
+                else
+                    return ArrayFieldValue;
+            }
+        }
+
+        /// <summary>
+        /// Get the array field corresponding of the given name.
+        /// Create an empty one if not existing. (UseCase of creating record).
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public ArrayField ExtractArrayField(string name)
+        {
+            if (FieldValues.Count(c => c.FieldName == name) == 0)
+            {
+                FieldValues.Add(new ArrayField(name, Enumerable.Empty<string>()));
+            }
+            return FieldValues.FirstOrDefault(c => c.FieldName == name) as ArrayField;
+        }
+
+        /// <summary>
+        /// Get the boolean field corresponding of the given name.
+        /// Create an empty one if not existing. (UseCase of creating record).
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public BooleanField ExtractBooleanField(string name)
+        {
+            if (FieldValues.Count(c => c.FieldName == name) == 0)
+            {
+                FieldValues.Add(new BooleanField(name, false));
+            }
+            return FieldValues.FirstOrDefault(c => c.FieldName == name) as BooleanField;
+        }
+
+        /// <summary>
+        /// Get the integer field corresponding of the given name.
+        /// Create an empty one if not existing. (UseCase of creating record).
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public IntegerField ExtractIntegerField(string name)
+        {
+            if (FieldValues.Count(c => c.FieldName == name) == 0)
+            {
+                FieldValues.Add(new IntegerField(name, 0));
+            }
+            return FieldValues.FirstOrDefault(c => c.FieldName == name) as IntegerField;
+        }
+
+        /// <summary>
+        /// Get the string field corresponding of the given name.
+        /// Create an empty one if not existing. (UseCase of creating record).
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public StringField ExtractStringField(string name)
+        {
+            if (FieldValues.Count(c => c.FieldName == name) == 0)
+            {
+                FieldValues.Add(new StringField(name, String.Empty));
+            }
+            return FieldValues.FirstOrDefault(c => c.FieldName == name) as StringField;
+        }
+
+        /// <summary>
+        /// Get the string field corresponding of the given name.
+        /// Create an empty one if not existing. (UseCase of creating record).
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public ObjectField ExtractObjectField(string name)
+        {
+            if (FieldValues.Count(c => c.FieldName == name) == 0)
+            {
+                FieldValues.Add(new ObjectField(name, Enumerable.Empty<ArrayField>()));
+            }
+            return FieldValues.FirstOrDefault(c => c.FieldName == name) as ObjectField;
+        }
     }
 }
